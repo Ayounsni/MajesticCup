@@ -3,7 +3,9 @@ package com.it.majesticcup.models.collections;
 
 
 import com.it.majesticcup.models.subdocuments.Player;
+import com.it.majesticcup.models.subdocuments.Result;
 import jakarta.validation.constraints.NotBlank;
+import jakarta.validation.constraints.NotNull;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -17,16 +19,21 @@ import java.util.List;
 @Getter
 @AllArgsConstructor
 @NoArgsConstructor
-@Document(collection = "teams")
-public class Team {
+@Document(collection = "matches")
+public class Match {
     @Id
     private String id;
+    @NotNull
+    private int round;
 
     @NotBlank
-    private String name;
+    private String team1;
 
     @NotBlank
-    private String city;
+    private String team2;
 
-    private List<Player> players;
+    private Result result;
+
+    @NotBlank
+    private String winner;
 }
