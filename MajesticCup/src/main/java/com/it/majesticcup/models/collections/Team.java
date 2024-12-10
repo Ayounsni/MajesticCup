@@ -2,7 +2,6 @@ package com.it.majesticcup.models.collections;
 
 
 
-import com.it.majesticcup.models.subdocuments.Player;
 import jakarta.validation.constraints.NotBlank;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
@@ -28,5 +27,5 @@ public class Team {
     @NotBlank
     private String city;
 
-    private List<Player> players;
+    private List<String> playersId;
 }

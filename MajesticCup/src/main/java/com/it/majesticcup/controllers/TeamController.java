@@ -1,7 +1,7 @@
 package com.it.majesticcup.controllers;
 
-import com.it.majesticcup.models.collections.Team;
 import com.it.majesticcup.models.dtos.TeamDTO.CreateTeamDTO;
+import com.it.majesticcup.models.dtos.TeamDTO.ResponseTeamDTO;
 import com.it.majesticcup.services.interfaces.ITeamService;
 import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -22,9 +22,15 @@ public class TeamController {
     private ITeamService teamService;
 
     @PostMapping("/team")
-    public ResponseEntity<Team> createTeam(@Valid @RequestBody CreateTeamDTO createTeamDTO) {
-        Team team = teamService.addTeam(createTeamDTO);
+    public ResponseEntity<ResponseTeamDTO> createTeam(@Valid @RequestBody CreateTeamDTO createTeamDTO) {
+        ResponseTeamDTO team = teamService.addTeam(createTeamDTO);
         return new ResponseEntity<>(team, HttpStatus.OK);
+    }
+
+    @GetMapping("/team")
+    public ResponseEntity<List<ResponseTeamDTO>> getAllTeams() {
+        List<ResponseTeamDTO> teams = teamService.getAllTeams();
+        return new ResponseEntity<>(teams, HttpStatus.OK);
     }
 
 }

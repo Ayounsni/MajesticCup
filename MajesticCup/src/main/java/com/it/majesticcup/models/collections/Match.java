@@ -2,7 +2,6 @@ package com.it.majesticcup.models.collections;
 
 
 
-import com.it.majesticcup.models.subdocuments.Player;
 import com.it.majesticcup.models.subdocuments.Result;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
@@ -12,8 +11,6 @@ import lombok.NoArgsConstructor;
 import lombok.Setter;
 import org.springframework.data.annotation.Id;
 import org.springframework.data.mongodb.core.mapping.Document;
-
-import java.util.List;
 
 @Setter
 @Getter

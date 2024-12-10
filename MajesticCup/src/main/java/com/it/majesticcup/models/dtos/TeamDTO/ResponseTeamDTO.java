@@ -11,13 +11,12 @@ import java.util.List;
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
-public class CreateTeamDTO {
+public class ResponseTeamDTO {
+    private String id;
 
-    @NotBlank
     private String name;
 
-    @NotBlank
     private String city;
 
-    private List<String> playersId;
+    private List<Player> players;
 }
