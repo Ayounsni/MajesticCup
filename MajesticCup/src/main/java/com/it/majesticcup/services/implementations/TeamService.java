@@ -4,6 +4,7 @@ import com.it.majesticcup.models.collections.Player;
 import com.it.majesticcup.models.collections.Team;
 import com.it.majesticcup.models.dtos.TeamDTO.CreateTeamDTO;
 import com.it.majesticcup.models.dtos.TeamDTO.ResponseTeamDTO;
+import com.it.majesticcup.models.dtos.TeamDTO.UpdateTeamDTO;
 import com.it.majesticcup.models.mappers.TeamMapper;
 import com.it.majesticcup.repository.PlayerRepository;
 import com.it.majesticcup.repository.TeamRepository;
@@ -51,4 +52,36 @@ public class TeamService implements ITeamService {
             return dto;
         }).collect(Collectors.toList());
     }
+
+    @Override
+    public ResponseTeamDTO getTeamById(String id) {
+        Team team = teamRepository.findById(id).orElseThrow(
+                () -> new IllegalArgumentException("Team not found"));
+
+        List<Player> players = playerRepository.findAllById(team.getPlayersId());
+        ResponseTeamDTO dto = teamMapper.toResponseDto(team);
+        dto.setPlayers(players);
+        return dto;
+
+    }
+
+    @Override
+    public ResponseTeamDTO updateTeam(String id, UpdateTeamDTO updateTeamDTO) {
+        Team team = teamRepository.findById(id).orElseThrow(
+                () -> new IllegalArgumentException("Team not found"));
+        Team updatedTeam = teamMapper.updateEntityFromDTO(updateTeamDTO, team);
+        Team savedTeam = teamRepository.save(updatedTeam);
+        List<Player> players = playerRepository.findAllById(savedTeam.getPlayersId());
+        ResponseTeamDTO dto = teamMapper.toResponseDto(savedTeam);
+        dto.setPlayers(players);
+        return dto;
+    }
+
+    @Override
+    public void deleteById(String id) {
+        teamRepository.findById(id).orElseThrow(
+                () -> new IllegalArgumentException("Team not found"));
+        teamRepository.deleteById(id);
+    }
+
 }

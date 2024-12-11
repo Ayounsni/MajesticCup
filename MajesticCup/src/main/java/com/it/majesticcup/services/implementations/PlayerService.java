@@ -28,4 +28,10 @@ public class PlayerService implements IPlayerService {
     public List<Player> getAllPlayers() {
         return playerRepository.findAll();
     }
+
+    @Override
+    public Player getPlayerById(String id) {
+        return playerRepository.findById(id).orElseThrow(
+                () -> new IllegalArgumentException("Player not found"));
+    }
 }

@@ -31,6 +31,6 @@ public class Match {
 
     private Result result;
 
-    @NotBlank
+
     private String winner;
 }

@@ -10,4 +10,5 @@ import java.util.List;
 public interface IPlayerService {
     Player addPlayer(CreatePlayerDTO createPlayerDTO);
     List<Player> getAllPlayers();
+    Player getPlayerById(String id);
 }
