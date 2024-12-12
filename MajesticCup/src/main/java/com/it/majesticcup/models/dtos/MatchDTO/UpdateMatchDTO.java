@@ -1,5 +1,6 @@
 package com.it.majesticcup.models.dtos.MatchDTO;
 
+import com.it.majesticcup.models.dtos.ResultDTO.ResponseResultDTO;
 import com.it.majesticcup.models.subdocuments.Result;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
@@ -14,6 +15,6 @@ public class UpdateMatchDTO {
 
     private Result result;
 
-
+    @NotBlank
     private String winner;
 }
