@@ -4,8 +4,6 @@ import com.it.majesticcup.models.collections.Match;
 import com.it.majesticcup.models.dtos.MatchDTO.CreateMatchDTO;
 import com.it.majesticcup.models.dtos.MatchDTO.ResponseMatchDTO;
 import com.it.majesticcup.models.dtos.MatchDTO.UpdateMatchDTO;
-import com.it.majesticcup.models.dtos.TeamDTO.ResponseTeamDTO;
-import com.it.majesticcup.models.dtos.TeamDTO.UpdateTeamDTO;
 import com.it.majesticcup.services.interfaces.IMatchService;
 import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -14,6 +12,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.List;
 
 
 @Validated
@@ -35,6 +34,30 @@ public class MatchController {
 
         ResponseMatchDTO updatedMatch = matchService.updateMatch(id, updateMatchDTO);
         return new ResponseEntity<>(updatedMatch, HttpStatus.OK);
+    }
+
+    @GetMapping("/match/{id}")
+    public ResponseEntity<ResponseMatchDTO> getMatchById(@PathVariable("id") String id) {
+        ResponseMatchDTO match = matchService.getMatchById(id);
+        return new ResponseEntity<>(match, HttpStatus.OK);
+    }
+
+    @GetMapping("/match/played")
+    public ResponseEntity<List<ResponseMatchDTO>> getPlayedMatches() {
+        List<ResponseMatchDTO> matches = matchService.getPlayedMatches();
+        return new ResponseEntity<>(matches, HttpStatus.OK);
+    }
+
+    @GetMapping("/match/notPlayed")
+    public ResponseEntity<List<ResponseMatchDTO>> getNotPlayedMatches() {
+        List<ResponseMatchDTO> matches = matchService.getNotPlayedMatches();
+        return new ResponseEntity<>(matches, HttpStatus.OK);
+    }
+
+    @DeleteMapping("/match/{id}")
+    public ResponseEntity<String> deleteTeam(@PathVariable("id") String id) {
+        matchService.deleteMatch(id);
+        return new ResponseEntity<>("Le match est supprimé avec succès", HttpStatus.OK);
     }
 
 

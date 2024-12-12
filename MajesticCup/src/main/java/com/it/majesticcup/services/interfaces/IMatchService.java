@@ -11,5 +11,9 @@ import java.util.List;
 public interface IMatchService {
     ResponseMatchDTO addMatch(CreateMatchDTO createMatchDTO);
     ResponseMatchDTO updateMatch(String id, UpdateMatchDTO updateMatchDTO);
+    ResponseMatchDTO getMatchById(String id);
+    List<ResponseMatchDTO> getPlayedMatches();
+    List<ResponseMatchDTO> getNotPlayedMatches();
+    void deleteMatch(String matchId);
 
 }
