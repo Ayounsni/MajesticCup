@@ -5,6 +5,7 @@ import com.it.majesticcup.models.dtos.MatchDTO.CreateMatchDTO;
 import com.it.majesticcup.models.dtos.MatchDTO.ResponseMatchDTO;
 import com.it.majesticcup.models.dtos.MatchDTO.UpdateMatchDTO;
 import com.it.majesticcup.models.dtos.PlayerDTO.CreatePlayerDTO;
+import com.it.majesticcup.models.dtos.StatisticDTO.TopScorerDTO;
 
 import java.util.List;
 
@@ -15,5 +16,6 @@ public interface IMatchService {
     List<ResponseMatchDTO> getPlayedMatches();
     List<ResponseMatchDTO> getNotPlayedMatches();
     void deleteMatch(String matchId);
+    List<TopScorerDTO> getTopScorers();
 
 }

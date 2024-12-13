@@ -8,6 +8,8 @@ import java.util.List;
 
 public interface IRoundService {
     ResponseRoundDTO addRound(CreateRoundDTO createRoundDTO);
+    ResponseRoundDTO getRoundById(String id);
+    void deleteRound(String id);
 
 
 }

@@ -11,12 +11,9 @@ import com.it.majesticcup.models.dtos.MatchDTO.ResponseMatchDTO;
 import com.it.majesticcup.models.dtos.RoundDTO.CreateRoundDTO;
 import com.it.majesticcup.models.dtos.RoundDTO.ResponseRoundDTO;
 import com.it.majesticcup.models.mappers.CompetitionMapper;
-import com.it.majesticcup.models.mappers.RoundMapper;
 import com.it.majesticcup.repository.CompetitionRepository;
 import com.it.majesticcup.repository.MatchRepository;
 import com.it.majesticcup.repository.RoundRepository;
-import com.it.majesticcup.repository.TeamRepository;
-import com.it.majesticcup.services.interfaces.ICompetitionService;
 import com.it.majesticcup.services.interfaces.IRoundService;
 import lombok.RequiredArgsConstructor;
 import org.bson.types.ObjectId;
@@ -36,7 +33,6 @@ public class RoundService implements IRoundService {
     private final CompetitionRepository competitionRepository;
     private final MatchService matchService;
     private final MatchRepository matchRepository;
-    private final RoundMapper roundMapper;
 
     @Override
     public ResponseRoundDTO addRound(CreateRoundDTO createRoundDTO) {
@@ -72,5 +68,41 @@ public class RoundService implements IRoundService {
         }
         return responseRoundDTO;
     }
+
+    @Override
+    public ResponseRoundDTO getRoundById(String id) {
+        Round round = roundRepository.findById(id).orElseThrow(
+                () -> new IllegalArgumentException("Round not found"));
+
+        Competition competition = competitionRepository.findById(round.getCompetitionId()).orElseThrow(
+                () -> new IllegalArgumentException("Competition not found"));
+
+        List<ResponseMatchDTO> responseMatchDTOList = new ArrayList<>();
+        for (Match match : round.getMatches()) {
+            ResponseMatchDTO responseMatchDTO = matchService.getMatchById(match.getId());
+            responseMatchDTOList.add(responseMatchDTO);
+        }
+
+        ResponseRoundDTO responseRoundDTO = new ResponseRoundDTO();
+        responseRoundDTO.setId(round.getId());
+        responseRoundDTO.setCompetitionName(competition.getName());
+        responseRoundDTO.setRoundNumber(round.getRoundNumber());
+        responseRoundDTO.setMatches(responseMatchDTOList);
+
+        return responseRoundDTO;
+    }
+
+    @Override
+    public void deleteRound(String id) {
+        Round round = roundRepository.findById(id).orElseThrow(
+                () -> new IllegalArgumentException("Round not found"));
+        Competition competition = competitionRepository.findById(round.getCompetitionId()).orElseThrow();
+        List<String> roundId =competition.getRounds();
+        roundId.remove(round.getId());
+        competition.setRounds(roundId);
+        competitionRepository.save(competition);
+        roundRepository.delete(round);
+    }
+
 
 }

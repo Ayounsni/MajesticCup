@@ -3,6 +3,7 @@ package com.it.majesticcup.controllers;
 import com.it.majesticcup.models.dtos.MatchDTO.CreateMatchDTO;
 import com.it.majesticcup.models.dtos.MatchDTO.ResponseMatchDTO;
 import com.it.majesticcup.models.dtos.MatchDTO.UpdateMatchDTO;
+import com.it.majesticcup.models.dtos.StatisticDTO.TopScorerDTO;
 import com.it.majesticcup.services.interfaces.IMatchService;
 import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -58,6 +59,13 @@ public class MatchController {
         matchService.deleteMatch(id);
         return new ResponseEntity<>("Le match est supprimé avec succès", HttpStatus.OK);
     }
+
+    @GetMapping("/statistics/top-scorers")
+    public ResponseEntity<List<TopScorerDTO>> getTopScorers() {
+        List<TopScorerDTO> tops = matchService.getTopScorers();
+        return new ResponseEntity<>(tops, HttpStatus.OK);
+    }
+
 }
 
 

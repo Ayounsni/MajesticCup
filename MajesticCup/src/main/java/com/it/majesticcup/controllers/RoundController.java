@@ -1,8 +1,7 @@
 package com.it.majesticcup.controllers;
 
-import com.it.majesticcup.models.collections.Round;
-import com.it.majesticcup.models.dtos.RoundDTO.CreateRoundDTO;
 import com.it.majesticcup.models.dtos.RoundDTO.ResponseRoundDTO;
+import com.it.majesticcup.models.dtos.RoundDTO.CreateRoundDTO;
 import com.it.majesticcup.services.interfaces.IRoundService;
 import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -10,8 +9,6 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
-
-import java.util.List;
 
 
 @Validated
@@ -28,6 +25,17 @@ public class RoundController {
         return new ResponseEntity<>(round, HttpStatus.OK);
     }
 
+    @GetMapping("/round/{id}")
+    public ResponseEntity<ResponseRoundDTO> getRoundById(@PathVariable("id") String id) {
+        ResponseRoundDTO round = roundService.getRoundById(id);
+        return new ResponseEntity<>(round, HttpStatus.OK);
+    }
+
+    @DeleteMapping("/round/{id}")
+    public ResponseEntity<String> deleteTeam(@PathVariable("id") String id) {
+        roundService.deleteRound(id);
+        return new ResponseEntity<>("Le rounde est supprimée avec succès", HttpStatus.OK);
+    }
 
 }
 

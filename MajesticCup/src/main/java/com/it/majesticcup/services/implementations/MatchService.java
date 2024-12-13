@@ -8,6 +8,7 @@ import com.it.majesticcup.models.dtos.MatchDTO.ResponseMatchDTO;
 import com.it.majesticcup.models.dtos.MatchDTO.UpdateMatchDTO;
 import com.it.majesticcup.models.dtos.ResultDTO.ResponseResultDTO;
 import com.it.majesticcup.models.dtos.StatisticDTO.ResponseStatisticDTO;
+import com.it.majesticcup.models.dtos.StatisticDTO.TopScorerDTO;
 import com.it.majesticcup.models.mappers.MatchMapper;
 import com.it.majesticcup.models.subdocuments.Statistic;
 import com.it.majesticcup.repository.PlayerRepository;
@@ -19,6 +20,7 @@ import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
 import java.util.stream.Collectors;
 
 @Service
@@ -194,6 +196,34 @@ public class MatchService implements IMatchService {
              matchRepository.findById(matchId).orElseThrow(
                 () -> new IllegalArgumentException("Match not found"));
         matchRepository.deleteById(matchId);
+    }
+
+    @Override
+    public List<TopScorerDTO> getTopScorers() {
+        List<Statistic> statistics = matchRepository.findAll().stream()
+                .filter(match -> match.getResult() != null && match.getResult().getStatistics() != null)
+                .flatMap(match -> match.getResult().getStatistics().stream())
+                .toList();
+
+        Map<String, Integer> goalsByPlayer = statistics.stream()
+                .collect(Collectors.groupingBy(
+                        Statistic::getPlayerId,
+                        Collectors.summingInt(Statistic::getGoals)
+                ));
+
+        return goalsByPlayer.entrySet().stream()
+                .map(entry -> {
+                    String playerId = entry.getKey();
+                    int totalGoals = entry.getValue();
+
+                    String playerName = playerRepository.findById(playerId)
+                            .map(Player::getName)
+                            .orElse("Unknown Player");
+
+                    return new TopScorerDTO(playerName, totalGoals);
+                })
+                .sorted((a, b) -> Integer.compare(b.getTotalGoals(), a.getTotalGoals())) // Trier par totalGoals décroissant
+                .collect(Collectors.toList());
     }
 
 
