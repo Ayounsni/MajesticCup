@@ -3,6 +3,9 @@ package com.it.majesticcup.exceptions;
 
 
 import com.it.majesticcup.models.dtos.Error.ErrorDTO;
+import io.jsonwebtoken.ExpiredJwtException;
+import io.jsonwebtoken.MalformedJwtException;
+import io.jsonwebtoken.security.SignatureException;
 import jakarta.validation.ConstraintViolationException;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -68,6 +71,26 @@ public class GlobalExceptionHandler {
     public ResponseEntity<ErrorDTO> handleGeneralException(Exception ex) {
         return new ResponseEntity<>(new ErrorDTO("Une erreur est survenue : " + ex.getMessage(), HttpStatus.INTERNAL_SERVER_ERROR.value()), HttpStatus.INTERNAL_SERVER_ERROR);
     }
+
+    @ExceptionHandler(ExpiredJwtException.class)
+    public ResponseEntity<ErrorDTO> handleExpiredJwtException(ExpiredJwtException ex) {
+        String message = "Le token a expiré.";
+        return new ResponseEntity<>(new ErrorDTO(message, HttpStatus.UNAUTHORIZED.value()), HttpStatus.UNAUTHORIZED);
+    }
+
+    @ExceptionHandler(MalformedJwtException.class)
+    public ResponseEntity<ErrorDTO> handleMalformedJwtException(MalformedJwtException ex) {
+        String message = "Le token est mal formé.";
+        return new ResponseEntity<>(new ErrorDTO(message, HttpStatus.UNAUTHORIZED.value()), HttpStatus.UNAUTHORIZED);
+    }
+
+    @ExceptionHandler(SignatureException.class)
+    public ResponseEntity<ErrorDTO> handleSignatureException(SignatureException ex) {
+        String message = "La signature du token est invalide.";
+        return new ResponseEntity<>(new ErrorDTO(message, HttpStatus.UNAUTHORIZED.value()), HttpStatus.UNAUTHORIZED);
+    }
+
+
 }
 
 
