@@ -27,7 +27,7 @@ public class PlayerController {
         return new ResponseEntity<>(player, HttpStatus.OK);
     }
 
-    @GetMapping("/player")
+    @GetMapping("/user/player")
     public ResponseEntity<List<Player>> getAllPlayers() {
         List<Player> players = playerService.getAllPlayers();
         return new ResponseEntity<>(players, HttpStatus.OK);
