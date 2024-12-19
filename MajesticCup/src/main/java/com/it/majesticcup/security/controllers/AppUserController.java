@@ -40,7 +40,6 @@ public class AppUserController {
     }
 
 
-
     @GetMapping("/admin/users/{username}")
     public ResponseEntity<ResponseAppUserDTO> getAppUserByUsername( @PathVariable("username") String username) {
         ResponseAppUserDTO user = appUserService.getByUsername(username);
@@ -59,12 +58,7 @@ public class AppUserController {
         return new ResponseEntity<>("Utilisateur est supprimé avec succès", HttpStatus.OK);
     }
 
-    @PutMapping("/admin/users/{username}")
-    public ResponseEntity<ResponseAppUserDTO> updateAppUser( @PathVariable("username") String username, @Valid @RequestBody UpdateAppUserDTO updateAppUserDTO) {
 
-        ResponseAppUserDTO updatedAppUser = appUserService.updateUser(username, updateAppUserDTO);
-        return new ResponseEntity<>(updatedAppUser, HttpStatus.OK);
-    }
 
     @PostMapping("/updatePassword")
     public ResponseEntity<String> updatePassword(@Valid @RequestBody ChangePasswordDTO changePasswordDTO) {

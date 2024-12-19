@@ -23,32 +23,32 @@ public class TeamController {
     @Autowired
     private ITeamService teamService;
 
-    @PostMapping("/team")
+    @PostMapping("/admin/team")
     public ResponseEntity<ResponseTeamDTO> createTeam(@Valid @RequestBody CreateTeamDTO createTeamDTO) {
         ResponseTeamDTO team = teamService.addTeam(createTeamDTO);
         return new ResponseEntity<>(team, HttpStatus.OK);
     }
 
-    @GetMapping("/team")
+    @GetMapping("/public/team")
     public ResponseEntity<List<ResponseTeamDTO>> getAllTeams() {
         List<ResponseTeamDTO> teams = teamService.getAllTeams();
         return new ResponseEntity<>(teams, HttpStatus.OK);
     }
 
-    @GetMapping("/team/{id}")
+    @GetMapping("/public/team/{id}")
     public ResponseEntity<ResponseTeamDTO> getTeamById(@PathVariable("id") String id) {
         ResponseTeamDTO team = teamService.getTeamById(id);
         return new ResponseEntity<>(team, HttpStatus.OK);
     }
 
-    @PutMapping("/team/{id}")
+    @PutMapping("/admin/team/{id}")
     public ResponseEntity<ResponseTeamDTO> updateTeam( @PathVariable("id") String id, @Valid @RequestBody UpdateTeamDTO updateTeamDTO) {
 
         ResponseTeamDTO updatedTeam = teamService.updateTeam(id, updateTeamDTO);
         return new ResponseEntity<>(updatedTeam, HttpStatus.OK);
     }
 
-    @DeleteMapping("/team/{id}")
+    @DeleteMapping("/admin/team/{id}")
     public ResponseEntity<String> deleteTeam(@PathVariable("id") String id) {
         teamService.deleteById(id);
         return new ResponseEntity<>("L'équipe est supprimé avec succès", HttpStatus.OK);

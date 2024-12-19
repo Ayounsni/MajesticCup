@@ -21,19 +21,19 @@ public class PlayerController {
     @Autowired
     private IPlayerService playerService;
 
-    @PostMapping("/player")
+    @PostMapping("/admin/player")
     public ResponseEntity<Player> createPlayer(@Valid @RequestBody CreatePlayerDTO createPlayerDTO) {
         Player player = playerService.addPlayer(createPlayerDTO);
         return new ResponseEntity<>(player, HttpStatus.OK);
     }
 
-    @GetMapping("/user/player")
+    @GetMapping("/public/player")
     public ResponseEntity<List<Player>> getAllPlayers() {
         List<Player> players = playerService.getAllPlayers();
         return new ResponseEntity<>(players, HttpStatus.OK);
     }
 
-    @GetMapping("/player/{id}")
+    @GetMapping("/public/player/{id}")
     public ResponseEntity<Player> getPlayerById(@PathVariable("id") String id) {
         Player player = playerService.getPlayerById(id);
         return new ResponseEntity<>(player, HttpStatus.OK);

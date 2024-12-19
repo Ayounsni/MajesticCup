@@ -19,20 +19,20 @@ public class RoundController {
     @Autowired
     private IRoundService roundService;
 
-    @PostMapping("/round")
+    @PostMapping("/admin/round")
     public ResponseEntity<ResponseRoundDTO> createRound(@Valid @RequestBody CreateRoundDTO createRoundDTO) {
         ResponseRoundDTO round = roundService.addRound(createRoundDTO);
         return new ResponseEntity<>(round, HttpStatus.OK);
     }
 
-    @GetMapping("/round/{id}")
+    @GetMapping("/public/round/{id}")
     public ResponseEntity<ResponseRoundDTO> getRoundById(@PathVariable("id") String id) {
         ResponseRoundDTO round = roundService.getRoundById(id);
         return new ResponseEntity<>(round, HttpStatus.OK);
     }
 
-    @DeleteMapping("/round/{id}")
-    public ResponseEntity<String> deleteTeam(@PathVariable("id") String id) {
+    @DeleteMapping("/admin/round/{id}")
+    public ResponseEntity<String> deleteRound(@PathVariable("id") String id) {
         roundService.deleteRound(id);
         return new ResponseEntity<>("Le rounde est supprimée avec succès", HttpStatus.OK);
     }

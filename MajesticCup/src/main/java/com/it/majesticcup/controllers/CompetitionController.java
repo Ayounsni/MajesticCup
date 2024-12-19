@@ -26,32 +26,32 @@ public class CompetitionController {
     @Autowired
     private ICompetitionService competitionService;
 
-    @PostMapping("/competition")
+    @PostMapping("/admin/competition")
     public ResponseEntity<ResponseCompetitionDTO> createCompetition(@Valid @RequestBody CreateCompetitionDTO createCompetitionDTO) {
         ResponseCompetitionDTO competition = competitionService.addCompetition(createCompetitionDTO);
         return new ResponseEntity<>(competition, HttpStatus.OK);
     }
 
-    @GetMapping("/competition/{id}")
+    @GetMapping("/public/competition/{id}")
     public ResponseEntity<ResponseCompetitionDTO> getCompetitionById(@PathVariable("id") String id) {
         ResponseCompetitionDTO competition = competitionService.getCompetitionById(id);
         return new ResponseEntity<>(competition, HttpStatus.OK);
     }
 
-    @PutMapping("/competition/{id}")
+    @PutMapping("/operator/competition/{id}")
     public ResponseEntity<ResponseCompetitionDTO> updateCompetition(@PathVariable("id") String id, @Valid @RequestBody UpdateCompetitionDTO updateCompetitionDTO) {
 
         ResponseCompetitionDTO updatedCompetition = competitionService.updateCompetition(id, updateCompetitionDTO);
         return new ResponseEntity<>(updatedCompetition, HttpStatus.OK);
     }
 
-    @GetMapping("/competition")
+    @GetMapping("/public/competition")
     public ResponseEntity<List<ResponseCompetitionDTO>> getAllCompetitions() {
         List<ResponseCompetitionDTO> competitions = competitionService.getAllCompetitions();
         return new ResponseEntity<>(competitions, HttpStatus.OK);
     }
 
-    @DeleteMapping("/competition/{id}")
+    @DeleteMapping("/admin/competition/{id}")
     public ResponseEntity<String> deleteTeam(@PathVariable("id") String id) {
         competitionService.deleteCompetition(id);
         return new ResponseEntity<>("La competition est supprimée avec succès", HttpStatus.OK);
